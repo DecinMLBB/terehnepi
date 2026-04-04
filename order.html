@@ -28,14 +28,13 @@ input, select, textarea, button {
   margin-top: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 14px;
 }
 
 button {
   background: #22c55e;
   color: white;
   border: none;
-  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -44,10 +43,17 @@ button:hover {
 }
 
 .result {
-  margin-top: 15px;
+  margin-top: 10px;
   font-weight: bold;
   text-align: center;
-  font-size: 16px;
+}
+
+.kurir-box {
+  background: #e2e8f0;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: center;
 }
 </style>
 </head>
@@ -61,130 +67,154 @@ button:hover {
 
   <label>Jenis Layanan</label>
   <select id="jenis">
-    <option value="Ojek Orang">Ojek Orang</option>
-    <option value="Kirim Barang">Kirim Barang</option>
+    <option>Ojek Orang</option>
+    <option>Kirim Barang</option>
   </select>
 
   <label>Jemput (Desa)</label>
-  <select id="jemput">
-    <option>Babakan Asem</option>
-    <option>Cacaban</option>
-    <option>Cibeureuyeuh</option>
-    <option>Cibubuan</option>
-    <option>Cipamekar</option>
-    <option>Conggeang Kulon</option>
-    <option>Conggeang Wetan</option>
-    <option>Jambu</option>
-    <option>Karanglayung</option>
-    <option>Narimbang</option>
-    <option>Padaasih</option>
-    <option>Ungkal</option>
-  </select>
+  <select id="jemput"></select>
 
   <label>Tujuan (Desa)</label>
-  <select id="tujuan">
-    <option>Babakan Asem</option>
-    <option>Cacaban</option>
-    <option>Cibeureuyeuh</option>
-    <option>Cibubuan</option>
-    <option>Cipamekar</option>
-    <option>Conggeang Kulon</option>
-    <option>Conggeang Wetan</option>
-    <option>Jambu</option>
-    <option>Karanglayung</option>
-    <option>Narimbang</option>
-    <option>Padaasih</option>
-    <option>Ungkal</option>
-  </select>
+  <select id="tujuan"></select>
 
-  <textarea id="catatan" placeholder="Detail alamat / patokan (wajib jelas)"></textarea>
+  <textarea id="catatan" placeholder="Detail alamat / patokan jelas"></textarea>
 
   <div class="result" id="harga">Estimasi Harga: -</div>
+  <div class="kurir-box" id="kurir">Kurir: -</div>
 
   <button onclick="hitung()">Hitung Harga</button>
   <button onclick="kirimWA()">Order Sekarang</button>
 </div>
 
 <script>
-// DATA KURIR (ISI NOMOR ASLI LU)
+// ================= DATA DESA =================
+const conggeang = [
+"Babakan Asem","Cacaban","Cibeureuyeuh","Cibubuan","Cipamekar",
+"Conggeang Kulon","Conggeang Wetan","Jambu","Karanglayung",
+"Narimbang","Padaasih","Ungkal"
+];
+
+const buahdua = [
+"Bojongloa","Buahdua","Ciawitali","Cibitung","Cikaramas",
+"Cikurubuk","Cilangkap","Citaleus","Gendereh","Hariang",
+"Karangbungur","Mekarmukti","Nagrak","Sekarwangi"
+];
+
+const paseh = [
+"Paseh Kidul","Paseh Kaler","Bongkok","Mekarpawitan"
+];
+
+const semuaDesa = [...conggeang, ...buahdua, ...paseh];
+
+// LOAD DROPDOWN
+const jemputEl = document.getElementById("jemput");
+const tujuanEl = document.getElementById("tujuan");
+
+semuaDesa.forEach(desa => {
+  jemputEl.innerHTML += `<option>${desa}</option>`;
+  tujuanEl.innerHTML += `<option>${desa}</option>`;
+});
+
+// ================= AREA =================
+function getArea(desa) {
+  if (conggeang.includes(desa)) return "Conggeang";
+  if (buahdua.includes(desa)) return "Buahdua";
+  if (paseh.includes(desa)) return "Paseh";
+  return "Lain";
+}
+
+// ================= KURIR =================
 const kurir = {
   cacan: "628XXXXXXXXXX",
   denny: "628XXXXXXXXXX",
   gathan: "628XXXXXXXXXX"
 };
 
-// PILIH KURIR BERDASARKAN JAM
+// WIB TIME
 function getKurir() {
-  let jam = new Date().getHours();
+  const sekarang = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Jakarta"
+  });
+
+  const waktu = new Date(sekarang);
+  const jam = waktu.getHours();
 
   if (jam >= 7 && jam < 13) return { nama: "Cacan", no: kurir.cacan };
   if (jam >= 13 && jam < 17) return { nama: "Denny", no: kurir.denny };
   if (jam >= 17 && jam < 22) return { nama: "Gathan", no: kurir.gathan };
 
-  return { nama: "Offline", no: kurir.cacan };
+  return { nama: "OFFLINE", no: null };
 }
 
-// HITUNG HARGA
+// ================= HARGA =================
 function hitung() {
-  let jemput = document.getElementById("jemput").value;
-  let tujuan = document.getElementById("tujuan").value;
+  let jemput = jemputEl.value;
+  let tujuan = tujuanEl.value;
   let jenis = document.getElementById("jenis").value;
+
+  let areaJ = getArea(jemput);
+  let areaT = getArea(tujuan);
 
   let harga = 5000;
 
-  // beda desa
-  if (jemput !== tujuan) {
-    harga += 3000;
-  }
+  if (jemput !== tujuan) harga += 3000;
+  if (areaJ !== areaT) harga += 5000;
 
-  // rute jauh (contoh kasar)
   if (
-    (jemput === "Babakan Asem" && tujuan === "Ungkal") ||
-    (jemput === "Ungkal" && tujuan === "Babakan Asem")
+    (areaJ === "Conggeang" && areaT === "Paseh") ||
+    (areaJ === "Paseh" && areaT === "Conggeang")
   ) {
     harga += 3000;
   }
 
-  // orang lebih mahal
-  if (jenis === "Ojek Orang") {
-    harga += 2000;
-  }
+  if (jenis === "Ojek Orang") harga += 2000;
 
   document.getElementById("harga").innerText =
     "Estimasi Harga: Rp " + harga.toLocaleString();
 
+  let k = getKurir();
+  document.getElementById("kurir").innerText =
+    "Kurir Aktif: " + k.nama;
+
   return harga;
 }
 
-// KIRIM WA
+// ================= KIRIM WA =================
 function kirimWA() {
   let nama = document.getElementById("nama").value.trim();
-  let jemput = document.getElementById("jemput").value;
-  let tujuan = document.getElementById("tujuan").value;
+  let jemput = jemputEl.value;
+  let tujuan = tujuanEl.value;
   let jenis = document.getElementById("jenis").value;
   let catatan = document.getElementById("catatan").value;
 
   if (nama === "") {
-    alert("Nama wajib diisi, jangan misterius");
+    alert("Nama jangan kosong, ini bukan order hantu");
+    return;
+  }
+
+  let k = getKurir();
+
+  if (!k.no) {
+    alert("Layanan buka jam 07:00 - 22:00 WIB");
     return;
   }
 
   let harga = hitung();
-  let kurirAktif = getKurir();
 
   let pesan =
-`Halo ${kurirAktif.nama}, saya ${nama}
+`Halo ${k.nama}, saya ${nama}
 
 Order Terehnepi:
 - Jenis: ${jenis}
-- Jemput: ${jemput}
-- Tujuan: ${tujuan}
+- Jemput: ${jemput} (${getArea(jemput)})
+- Tujuan: ${tujuan} (${getArea(tujuan)})
 - Catatan: ${catatan}
 - Estimasi Harga: Rp ${harga.toLocaleString()}`;
 
-  let url = "https://wa.me/" + kurirAktif.no + "?text=" + encodeURIComponent(pesan);
-
-  window.open(url, "_blank");
+  window.open(
+    "https://wa.me/" + k.no + "?text=" + encodeURIComponent(pesan),
+    "_blank"
+  );
 }
 </script>
 
