@@ -22,7 +22,7 @@ h2 {
   text-align: center;
 }
 
-input, select, textarea, button {
+input, select, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
@@ -31,9 +31,13 @@ input, select, textarea, button {
 }
 
 button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
   background: #22c55e;
   color: white;
-  border: none;
   font-weight: bold;
   cursor: pointer;
 }
@@ -84,7 +88,6 @@ button:hover {
   <div class="result" id="harga">Estimasi Harga: -</div>
   <div class="kurir-box" id="kurir">Kurir: -</div>
 
-  <button onclick="hitung()">Hitung Harga</button>
   <button onclick="kirimWA()">Order Sekarang</button>
 </div>
 
@@ -111,6 +114,7 @@ const semuaDesa = [...conggeang, ...buahdua, ...paseh];
 const jemputEl = document.getElementById("jemput");
 const tujuanEl = document.getElementById("tujuan");
 
+// isi dropdown
 semuaDesa.forEach(desa => {
   jemputEl.innerHTML += `<option>${desa}</option>`;
   tujuanEl.innerHTML += `<option>${desa}</option>`;
@@ -156,11 +160,16 @@ function hitung() {
 
   let harga = 0;
 
+  const desaJauh = ["Babakan Asem", "Padaasih", "Ungkal"];
+
   // CONGGEANG DALAM
   if (areaJ === "Conggeang" && areaT === "Conggeang") {
     harga = 10000;
 
-    if (jemput === "Babakan Asem" || tujuan === "Babakan Asem") {
+    if (
+      desaJauh.includes(jemput) ||
+      desaJauh.includes(tujuan)
+    ) {
       harga += 3000;
     }
   }
@@ -178,7 +187,7 @@ function hitung() {
   // PP
   if (pp) harga += 5000;
 
-  // jenis
+  // jenis layanan
   if (jenis === "Ojek Orang") harga += 2000;
 
   document.getElementById("harga").innerText =
@@ -191,15 +200,22 @@ function hitung() {
   return harga;
 }
 
+// ================= AUTO UPDATE =================
+document.querySelectorAll("select, input, textarea").forEach(el => {
+  el.addEventListener("change", hitung);
+});
+
 // ================= WA =================
 function kirimWA() {
   let nama = document.getElementById("nama").value.trim();
+
   if (nama === "") {
     alert("Nama jangan kosong");
     return;
   }
 
   let k = getKurir();
+
   if (!k.no) {
     alert("Layanan buka 07:00 - 22:00 WIB");
     return;
@@ -214,7 +230,7 @@ function kirimWA() {
   let pesan =
 `Halo ${k.nama}, saya ${nama}
 
-Order:
+Order Terehnepi:
 - ${jenis}
 - Jemput: ${jemput}
 - Tujuan: ${tujuan}
@@ -226,6 +242,9 @@ Order:
     "_blank"
   );
 }
+
+// hitung awal
+hitung();
 </script>
 
 </body>
