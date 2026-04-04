@@ -1,50 +1,143 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Order - Terehnepi</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order - Terehnepi</title>
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+input, select, textarea, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #22c55e;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 15px;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
-<header>
-  <h1>Terehnepi</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="layanan.html">Layanan</a>
-    <a href="order.html">Order</a>
-  </nav>
-</header>
-
 <div class="container">
-  <h2>Form Order</h2>
+  <h2>Order Terehnepi</h2>
 
-  <input type="text" id="nama" placeholder="Nama">
-  <input type="text" id="jemput" placeholder="Alamat Jemput">
-  <input type="text" id="tujuan" placeholder="Alamat Tujuan">
+  <input type="text" id="nama" placeholder="Nama Anda">
 
-  <select id="layanan">
-    <option>Kurir Barang</option>
-    <option>Jasa Titip</option>
-    <option>Ojek Barang</option>
+  <label>Jenis Layanan</label>
+  <select id="jenis">
+    <option value="orang">Ojek Orang</option>
+    <option value="barang">Kirim Barang</option>
   </select>
 
-  <button onclick="kirimWA()">Kirim ke WhatsApp</button>
+  <label>Jemput (Area)</label>
+  <select id="jemput">
+    <option value="conggeang">Conggeang</option>
+    <option value="buahdua">Buahdua</option>
+    <option value="paseh">Paseh</option>
+  </select>
+
+  <label>Tujuan (Area)</label>
+  <select id="tujuan">
+    <option value="conggeang">Conggeang</option>
+    <option value="buahdua">Buahdua</option>
+    <option value="paseh">Paseh</option>
+  </select>
+
+  <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
+
+  <div class="result" id="harga">Estimasi Harga: -</div>
+
+  <button onclick="hitung()">Hitung Harga</button>
+  <button onclick="kirimWA()">Order Sekarang</button>
 </div>
 
 <script>
+// DATA KURIR
+const kurir = {
+  cacan: "628XXXXXXXXXX",
+  denny: "628XXXXXXXXXX",
+  gathan: "628XXXXXXXXXX"
+};
+
+// PILIH KURIR BERDASARKAN JAM
+function getKurir() {
+  let jam = new Date().getHours();
+
+  if (jam >= 7 && jam < 13) return { nama: "Cacan", no: kurir.cacan };
+  if (jam >= 13 && jam < 17) return { nama: "Denny", no: kurir.denny };
+  if (jam >= 17 && jam < 22) return { nama: "Gathan", no: kurir.gathan };
+
+  return { nama: "Offline", no: kurir.cacan };
+}
+
+// HITUNG HARGA
+function hitung() {
+  let jemput = document.getElementById("jemput").value;
+  let tujuan = document.getElementById("tujuan").value;
+  let jenis = document.getElementById("jenis").value;
+
+  let harga = 5000;
+
+  if (jemput !== tujuan) {
+    harga = 8000;
+  }
+
+  if (jenis === "orang") {
+    harga += 3000;
+  }
+
+  document.getElementById("harga").innerText =
+    "Estimasi Harga: Rp " + harga.toLocaleString();
+}
+
+// KIRIM WA
 function kirimWA() {
   let nama = document.getElementById("nama").value;
   let jemput = document.getElementById("jemput").value;
   let tujuan = document.getElementById("tujuan").value;
-  let layanan = document.getElementById("layanan").value;
+  let jenis = document.getElementById("jenis").value;
+  let catatan = document.getElementById("catatan").value;
 
-  let pesan = `Halo, saya ${nama}%0A` +
-              `Jemput: ${jemput}%0A` +
-              `Tujuan: ${tujuan}%0A` +
-              `Layanan: ${layanan}`;
+  let kurirAktif = getKurir();
 
-  let url = "https://wa.me/628XXXXXXXXXX?text=" + pesan;
+  let pesan =
+`Halo ${kurirAktif.nama}, saya ${nama}
+Order:
+- Jenis: ${jenis}
+- Jemput: ${jemput}
+- Tujuan: ${tujuan}
+- Catatan: ${catatan}`;
+
+  let url = "https://wa.me/" + kurirAktif.no + "?text=" + encodeURIComponent(pesan);
 
   window.open(url, "_blank");
 }
