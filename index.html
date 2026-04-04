@@ -25,6 +25,7 @@ header {
   justify-content: space-between;
   align-items: center;
   position: relative;
+  z-index: 1000;
 }
 
 .logo {
@@ -54,6 +55,7 @@ nav a {
   display: none;
   font-size: 26px;
   cursor: pointer;
+  z-index: 1001;
 }
 
 /* HERO */
@@ -62,19 +64,12 @@ nav a {
   padding: 60px 20px;
   background: #1e293b;
   color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .hero img {
   width: 100px;
-}
-
-.hero h2 {
-  font-size: 32px;
-}
-
-.hero p {
-  max-width: 500px;
-  margin: auto;
 }
 
 /* BUTTON */
@@ -116,28 +111,15 @@ nav a {
   transform: translateY(-5px);
 }
 
-/* ANIMASI */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.8s ease forwards;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* MOBILE */
 @media(max-width:768px) {
+
   .menu-toggle {
     display: block;
   }
 
   nav {
-    position: absolute;
+    position: fixed; /* INI KUNCI FIX */
     top: 60px;
     left: 0;
     width: 100%;
@@ -149,6 +131,8 @@ nav a {
     max-height: 0;
     overflow: hidden;
     transition: 0.3s ease;
+
+    z-index: 9999; /* PALING ATAS */
   }
 
   nav a {
@@ -162,10 +146,6 @@ nav a {
     max-height: 300px;
   }
 
-  .hero h2 {
-    font-size: 24px;
-  }
-
   .services {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -175,14 +155,6 @@ nav a {
 @media(max-width:480px) {
   .services {
     grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding: 40px 15px;
-  }
-
-  .hero h2 {
-    font-size: 20px;
   }
 }
 </style>
@@ -205,38 +177,22 @@ nav a {
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero fade-in">
+<section class="hero">
   <img src="logo.png" alt="logo">
-
   <h2>Gaskeun, Pasti Nepi 🚀</h2>
   <p>
     Terehnepi adalah layanan kurir lokal area Conggeang, Buahdua, dan Paseh.
-    Siap antar barang, jasa titip, dan kebutuhan harian dengan cepat dan aman.
   </p>
-
   <a href="order.html" class="btn">Order Sekarang</a>
 </section>
 
-<!-- LAYANAN -->
-<div class="container fade-in">
+<div class="container">
   <h2>Layanan Kami</h2>
 
   <div class="services">
-    <div class="card">
-      📦 <b>Kurir Barang</b>
-      <p>Antar cepat & aman</p>
-    </div>
-
-    <div class="card">
-      🛒 <b>Jasa Titip</b>
-      <p>Beli tanpa ribet</p>
-    </div>
-
-    <div class="card">
-      🏍️ <b>Ojek Barang</b>
-      <p>Kirim cepat lokal</p>
-    </div>
+    <div class="card">📦 Kurir Barang</div>
+    <div class="card">🛒 Jasa Titip</div>
+    <div class="card">🏍️ Ojek Barang</div>
   </div>
 </div>
 
@@ -253,6 +209,17 @@ function toggleMenu() {
     btn.innerHTML = "☰";
   }
 }
+
+/* AUTO CLOSE KALAU KLIK LUAR */
+document.addEventListener("click", function(e) {
+  const nav = document.getElementById("navMenu");
+  const btn = document.getElementById("menuBtn");
+
+  if (!nav.contains(e.target) && !btn.contains(e.target)) {
+    nav.classList.remove("active");
+    btn.innerHTML = "☰";
+  }
+});
 </script>
 
 </body>
