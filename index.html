@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terehnepi - Gaskeun, Pasti Nepi</title>
+<title>Terehnepi</title>
 
 <style>
 body {
@@ -22,6 +22,17 @@ header {
   align-items: center;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* NAV */
 nav {
   display: flex;
 }
@@ -39,96 +50,7 @@ nav a {
   cursor: pointer;
 }
 
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-  background: #1e293b;
-  color: white;
-}
-
-.btn {
-  background: #22c55e;
-  padding: 12px 20px;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-/* CONTAINER */
-.container {
-  padding: 20px;
-}
-
-/* CARD */
-.card {
-  background: white;
-  padding: 20px;
-  margin-top: 15px;
-  border-radius: 10px;
-}
-
-/* FORM */
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-}
-
-/* ANIMASI */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.8s ease forwards;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  left: -220px;
-  top: 0;
-  width: 200px;
-  height: 100%;
-  background: #0f172a;
-  color: white;
-  transition: 0.3s;
-  padding-top: 20px;
-}
-
-.sidebar a {
-  display: block;
-  padding: 10px 20px;
-  color: white;
-  text-decoration: none;
-}
-
-.sidebar a:hover {
-  background: #1e293b;
-}
-
-.sidebar.active {
-  left: 0;
-}
-
-/* CONTENT SHIFT */
-.main {
-  transition: 0.3s;
-}
-
-.main.shift {
-  margin-left: 200px;
-}
-
-/* MOBILE */
+/* MOBILE MENU */
 @media(max-width:768px) {
   nav {
     display: none;
@@ -148,95 +70,116 @@ input, select, button {
     display: block;
   }
 }
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background: #1e293b;
+  color: white;
+}
+
+.hero img {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  background: #22c55e;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 15px;
+}
+
+/* CONTAINER */
+.container {
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* ANIMASI */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-  <a href="#">Dashboard</a>
-  <a href="#">Order Masuk</a>
-  <a href="#">Driver</a>
-</div>
-
-<!-- HEADER -->
 <header>
-  <h1>Terehnepi</h1>
-
-  <div>
-    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-    <span class="menu-toggle" onclick="toggleSidebar()">📊</span>
+  <div class="logo">
+    <!-- GANTI LINK INI DENGAN LOGO GITHUB LU -->
+    <img src="logo.png" alt="logo">
+    <h2>Terehnepi</h2>
   </div>
 
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
   <nav id="navMenu">
-    <a href="#home">Home</a>
-    <a href="#layanan">Layanan</a>
-    <a href="#order">Order</a>
+    <a href="index.html">Home</a>
+    <a href="order.html">Order</a>
+    <a href="kurir.html">List Kurir</a>
   </nav>
 </header>
 
-<div class="main" id="main">
-
 <!-- HERO -->
-<section class="hero fade-in" id="home">
+<section class="hero fade-in">
+  <!-- LOGO BESAR -->
+  <img src="logo.png" alt="logo">
+
   <h2>Gaskeun, Pasti Nepi 🚀</h2>
-  <p>Kurir lokal Conggeang - Buahdua - Paseh</p>
-  <a href="#order" class="btn">Order Sekarang</a>
+  <p>
+    Terehnepi adalah layanan kurir lokal area Conggeang, Buahdua, dan Paseh.
+    Siap antar barang, jasa titip, dan kebutuhan harian dengan cepat dan aman.
+  </p>
+
+  <a href="order.html" class="btn">Order Sekarang</a>
 </section>
 
 <!-- LAYANAN -->
-<div class="container fade-in" id="layanan">
+<div class="container fade-in">
   <h2>Layanan Kami</h2>
 
-  <div class="card">📦 Kurir Barang</div>
-  <div class="card">🛒 Jasa Titip</div>
-  <div class="card">🏍️ Ojek Barang</div>
-</div>
+  <div class="card">
+    📦 Kurir Barang  
+    <p>Antar barang cepat & aman</p>
+  </div>
 
-<!-- ORDER -->
-<div class="container fade-in" id="order">
-  <h2>Form Order</h2>
+  <div class="card">
+    🛒 Jasa Titip  
+    <p>Titip beli tanpa ribet</p>
+  </div>
 
-  <input type="text" id="nama" placeholder="Nama">
-  <input type="text" id="jemput" placeholder="Alamat Jemput">
-  <input type="text" id="tujuan" placeholder="Alamat Tujuan">
-
-  <select id="layananSelect">
-    <option>Kurir Barang</option>
-    <option>Jasa Titip</option>
-    <option>Ojek Barang</option>
-  </select>
-
-  <button onclick="kirimWA()">Kirim via WhatsApp</button>
-</div>
-
+  <div class="card">
+    🏍️ Ojek Barang  
+    <p>Kirim cepat area lokal</p>
+  </div>
 </div>
 
 <script>
 function toggleMenu() {
   document.getElementById("navMenu").classList.toggle("active");
-}
-
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("active");
-  document.getElementById("main").classList.toggle("shift");
-}
-
-function kirimWA() {
-  let nama = document.getElementById("nama").value;
-  let jemput = document.getElementById("jemput").value;
-  let tujuan = document.getElementById("tujuan").value;
-  let layanan = document.getElementById("layananSelect").value;
-
-  let pesan = `Halo, saya ${nama}%0A` +
-              `Jemput: ${jemput}%0A` +
-              `Tujuan: ${tujuan}%0A` +
-              `Layanan: ${layanan}`;
-
-  let url = "https://wa.me/628XXXXXXXXXX?text=" + pesan;
-
-  window.open(url, "_blank");
 }
 </script>
 
