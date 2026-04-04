@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Order - Terehnepi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Terehnepi</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="layanan.html">Layanan</a>
+    <a href="order.html">Order</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Form Order</h2>
+
+  <input type="text" id="nama" placeholder="Nama">
+  <input type="text" id="jemput" placeholder="Alamat Jemput">
+  <input type="text" id="tujuan" placeholder="Alamat Tujuan">
+
+  <select id="layanan">
+    <option>Kurir Barang</option>
+    <option>Jasa Titip</option>
+    <option>Ojek Barang</option>
+  </select>
+
+  <button onclick="kirimWA()">Kirim ke WhatsApp</button>
+</div>
+
+<script>
+function kirimWA() {
+  let nama = document.getElementById("nama").value;
+  let jemput = document.getElementById("jemput").value;
+  let tujuan = document.getElementById("tujuan").value;
+  let layanan = document.getElementById("layanan").value;
+
+  let pesan = `Halo, saya ${nama}%0A` +
+              `Jemput: ${jemput}%0A` +
+              `Tujuan: ${tujuan}%0A` +
+              `Layanan: ${layanan}`;
+
+  let url = "https://wa.me/628XXXXXXXXXX?text=" + pesan;
+
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
