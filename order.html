@@ -77,6 +77,8 @@ button:hover {
   <label>Tujuan (Desa)</label>
   <select id="tujuan"></select>
 
+  <label><input type="checkbox" id="pp"> PP (Bolak-balik)</label>
+
   <textarea id="catatan" placeholder="Detail alamat / patokan jelas"></textarea>
 
   <div class="result" id="harga">Estimasi Harga: -</div>
@@ -87,7 +89,7 @@ button:hover {
 </div>
 
 <script>
-// ================= DATA DESA =================
+// ================= DATA =================
 const conggeang = [
 "Babakan Asem","Cacaban","Cibeureuyeuh","Cibubuan","Cipamekar",
 "Conggeang Kulon","Conggeang Wetan","Jambu","Karanglayung",
@@ -106,7 +108,6 @@ const paseh = [
 
 const semuaDesa = [...conggeang, ...buahdua, ...paseh];
 
-// LOAD DROPDOWN
 const jemputEl = document.getElementById("jemput");
 const tujuanEl = document.getElementById("tujuan");
 
@@ -115,7 +116,6 @@ semuaDesa.forEach(desa => {
   tujuanEl.innerHTML += `<option>${desa}</option>`;
 });
 
-// ================= AREA =================
 function getArea(desa) {
   if (conggeang.includes(desa)) return "Conggeang";
   if (buahdua.includes(desa)) return "Buahdua";
@@ -125,19 +125,17 @@ function getArea(desa) {
 
 // ================= KURIR =================
 const kurir = {
-  cacan: "628XXXXXXXXXX",
-  denny: "628XXXXXXXXXX",
-  gathan: "628XXXXXXXXXX"
+  cacan: "6283178712134",
+  denny: "6285156287358",
+  gathan: "6283178712134"
 };
 
-// WIB TIME
 function getKurir() {
   const sekarang = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Jakarta"
   });
 
-  const waktu = new Date(sekarang);
-  const jam = waktu.getHours();
+  const jam = new Date(sekarang).getHours();
 
   if (jam >= 7 && jam < 13) return { nama: "Cacan", no: kurir.cacan };
   if (jam >= 13 && jam < 17) return { nama: "Denny", no: kurir.denny };
@@ -151,22 +149,36 @@ function hitung() {
   let jemput = jemputEl.value;
   let tujuan = tujuanEl.value;
   let jenis = document.getElementById("jenis").value;
+  let pp = document.getElementById("pp").checked;
 
   let areaJ = getArea(jemput);
   let areaT = getArea(tujuan);
 
-  let harga = 5000;
+  let harga = 0;
 
-  if (jemput !== tujuan) harga += 3000;
-  if (areaJ !== areaT) harga += 5000;
+  // CONGGEANG DALAM
+  if (areaJ === "Conggeang" && areaT === "Conggeang") {
+    harga = 10000;
 
-  if (
-    (areaJ === "Conggeang" && areaT === "Paseh") ||
-    (areaJ === "Paseh" && areaT === "Conggeang")
-  ) {
-    harga += 3000;
+    if (jemput === "Babakan Asem" || tujuan === "Babakan Asem") {
+      harga += 3000;
+    }
   }
 
+  // ANTAR KECAMATAN
+  else if (areaJ !== areaT) {
+    harga = 20000;
+  }
+
+  // fallback
+  else {
+    harga = 15000;
+  }
+
+  // PP
+  if (pp) harga += 5000;
+
+  // jenis
   if (jenis === "Ojek Orang") harga += 2000;
 
   document.getElementById("harga").innerText =
@@ -179,37 +191,35 @@ function hitung() {
   return harga;
 }
 
-// ================= KIRIM WA =================
+// ================= WA =================
 function kirimWA() {
   let nama = document.getElementById("nama").value.trim();
+  if (nama === "") {
+    alert("Nama jangan kosong");
+    return;
+  }
+
+  let k = getKurir();
+  if (!k.no) {
+    alert("Layanan buka 07:00 - 22:00 WIB");
+    return;
+  }
+
+  let harga = hitung();
   let jemput = jemputEl.value;
   let tujuan = tujuanEl.value;
   let jenis = document.getElementById("jenis").value;
   let catatan = document.getElementById("catatan").value;
 
-  if (nama === "") {
-    alert("Nama jangan kosong, ini bukan order hantu");
-    return;
-  }
-
-  let k = getKurir();
-
-  if (!k.no) {
-    alert("Layanan buka jam 07:00 - 22:00 WIB");
-    return;
-  }
-
-  let harga = hitung();
-
   let pesan =
 `Halo ${k.nama}, saya ${nama}
 
-Order Terehnepi:
-- Jenis: ${jenis}
-- Jemput: ${jemput} (${getArea(jemput)})
-- Tujuan: ${tujuan} (${getArea(tujuan)})
+Order:
+- ${jenis}
+- Jemput: ${jemput}
+- Tujuan: ${tujuan}
 - Catatan: ${catatan}
-- Estimasi Harga: Rp ${harga.toLocaleString()}`;
+- Harga: Rp ${harga.toLocaleString()}`;
 
   window.open(
     "https://wa.me/" + k.no + "?text=" + encodeURIComponent(pesan),
