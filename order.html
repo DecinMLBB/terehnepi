@@ -26,8 +26,9 @@ input, select, textarea, button {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 button {
@@ -38,9 +39,15 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background: #16a34a;
+}
+
 .result {
   margin-top: 15px;
   font-weight: bold;
+  text-align: center;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -54,25 +61,43 @@ button {
 
   <label>Jenis Layanan</label>
   <select id="jenis">
-    <option value="orang">Ojek Orang</option>
-    <option value="barang">Kirim Barang</option>
+    <option value="Ojek Orang">Ojek Orang</option>
+    <option value="Kirim Barang">Kirim Barang</option>
   </select>
 
-  <label>Jemput (Area)</label>
+  <label>Jemput (Desa)</label>
   <select id="jemput">
-    <option value="conggeang">Conggeang</option>
-    <option value="buahdua">Buahdua</option>
-    <option value="paseh">Paseh</option>
+    <option>Babakan Asem</option>
+    <option>Cacaban</option>
+    <option>Cibeureuyeuh</option>
+    <option>Cibubuan</option>
+    <option>Cipamekar</option>
+    <option>Conggeang Kulon</option>
+    <option>Conggeang Wetan</option>
+    <option>Jambu</option>
+    <option>Karanglayung</option>
+    <option>Narimbang</option>
+    <option>Padaasih</option>
+    <option>Ungkal</option>
   </select>
 
-  <label>Tujuan (Area)</label>
+  <label>Tujuan (Desa)</label>
   <select id="tujuan">
-    <option value="conggeang">Conggeang</option>
-    <option value="buahdua">Buahdua</option>
-    <option value="paseh">Paseh</option>
+    <option>Babakan Asem</option>
+    <option>Cacaban</option>
+    <option>Cibeureuyeuh</option>
+    <option>Cibubuan</option>
+    <option>Cipamekar</option>
+    <option>Conggeang Kulon</option>
+    <option>Conggeang Wetan</option>
+    <option>Jambu</option>
+    <option>Karanglayung</option>
+    <option>Narimbang</option>
+    <option>Padaasih</option>
+    <option>Ungkal</option>
   </select>
 
-  <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
+  <textarea id="catatan" placeholder="Detail alamat / patokan (wajib jelas)"></textarea>
 
   <div class="result" id="harga">Estimasi Harga: -</div>
 
@@ -81,7 +106,7 @@ button {
 </div>
 
 <script>
-// DATA KURIR
+// DATA KURIR (ISI NOMOR ASLI LU)
 const kurir = {
   cacan: "628XXXXXXXXXX",
   denny: "628XXXXXXXXXX",
@@ -107,35 +132,55 @@ function hitung() {
 
   let harga = 5000;
 
+  // beda desa
   if (jemput !== tujuan) {
-    harga = 8000;
+    harga += 3000;
   }
 
-  if (jenis === "orang") {
+  // rute jauh (contoh kasar)
+  if (
+    (jemput === "Babakan Asem" && tujuan === "Ungkal") ||
+    (jemput === "Ungkal" && tujuan === "Babakan Asem")
+  ) {
     harga += 3000;
+  }
+
+  // orang lebih mahal
+  if (jenis === "Ojek Orang") {
+    harga += 2000;
   }
 
   document.getElementById("harga").innerText =
     "Estimasi Harga: Rp " + harga.toLocaleString();
+
+  return harga;
 }
 
 // KIRIM WA
 function kirimWA() {
-  let nama = document.getElementById("nama").value;
+  let nama = document.getElementById("nama").value.trim();
   let jemput = document.getElementById("jemput").value;
   let tujuan = document.getElementById("tujuan").value;
   let jenis = document.getElementById("jenis").value;
   let catatan = document.getElementById("catatan").value;
 
+  if (nama === "") {
+    alert("Nama wajib diisi, jangan misterius");
+    return;
+  }
+
+  let harga = hitung();
   let kurirAktif = getKurir();
 
   let pesan =
 `Halo ${kurirAktif.nama}, saya ${nama}
-Order:
+
+Order Terehnepi:
 - Jenis: ${jenis}
 - Jemput: ${jemput}
 - Tujuan: ${tujuan}
-- Catatan: ${catatan}`;
+- Catatan: ${catatan}
+- Estimasi Harga: Rp ${harga.toLocaleString()}`;
 
   let url = "https://wa.me/" + kurirAktif.no + "?text=" + encodeURIComponent(pesan);
 
