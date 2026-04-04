@@ -6,6 +6,10 @@
 <title>Terehnepi</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial;
@@ -16,10 +20,11 @@ body {
 header {
   background: #0f172a;
   color: white;
-  padding: 15px;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo {
@@ -50,40 +55,28 @@ nav a {
   cursor: pointer;
 }
 
-/* MOBILE MENU */
-@media(max-width:768px) {
-  nav {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    right: 0;
-    top: 60px;
-    background: #0f172a;
-    width: 200px;
-  }
-
-  nav.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-}
-
 /* HERO */
 .hero {
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
   background: #1e293b;
   color: white;
 }
 
 .hero img {
-  width: 120px;
-  margin-bottom: 10px;
+  width: 100px;
 }
 
+.hero h2 {
+  font-size: 32px;
+}
+
+.hero p {
+  max-width: 500px;
+  margin: auto;
+}
+
+/* BUTTON */
 .btn {
   background: #22c55e;
   padding: 12px 20px;
@@ -97,13 +90,21 @@ nav a {
 /* CONTAINER */
 .container {
   padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* GRID LAYANAN */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
 }
 
 /* CARD */
 .card {
   background: white;
   padding: 20px;
-  margin-top: 15px;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
@@ -122,6 +123,50 @@ nav a {
     transform: translateY(0);
   }
 }
+
+/* MOBILE */
+@media(max-width:768px) {
+  nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 60px;
+    background: #0f172a;
+    width: 200px;
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* HP KECIL */
+@media(max-width:480px) {
+  .services {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 40px 15px;
+  }
+
+  .hero h2 {
+    font-size: 20px;
+  }
+}
 </style>
 </head>
 
@@ -129,7 +174,6 @@ nav a {
 
 <header>
   <div class="logo">
-    <!-- GANTI LINK INI DENGAN LOGO GITHUB LU -->
     <img src="logo.png" alt="logo">
     <h2>Terehnepi</h2>
   </div>
@@ -145,7 +189,6 @@ nav a {
 
 <!-- HERO -->
 <section class="hero fade-in">
-  <!-- LOGO BESAR -->
   <img src="logo.png" alt="logo">
 
   <h2>Gaskeun, Pasti Nepi 🚀</h2>
@@ -161,19 +204,21 @@ nav a {
 <div class="container fade-in">
   <h2>Layanan Kami</h2>
 
-  <div class="card">
-    📦 Kurir Barang  
-    <p>Antar barang cepat & aman</p>
-  </div>
+  <div class="services">
+    <div class="card">
+      📦 <b>Kurir Barang</b>
+      <p>Antar cepat & aman</p>
+    </div>
 
-  <div class="card">
-    🛒 Jasa Titip  
-    <p>Titip beli tanpa ribet</p>
-  </div>
+    <div class="card">
+      🛒 <b>Jasa Titip</b>
+      <p>Beli tanpa ribet</p>
+    </div>
 
-  <div class="card">
-    🏍️ Ojek Barang  
-    <p>Kirim cepat area lokal</p>
+    <div class="card">
+      🏍️ <b>Ojek Barang</b>
+      <p>Kirim cepat lokal</p>
+    </div>
   </div>
 </div>
 
