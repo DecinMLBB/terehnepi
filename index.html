@@ -8,9 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -32,39 +30,24 @@ header {
   z-index: 1000;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 10px;
-}
+.logo { display: flex; align-items: center; }
+.logo img { height: 40px; margin-right: 10px; }
 
 /* NAV */
-nav {
-  display: flex;
-  gap: 20px;
-}
-
+nav { display: flex; gap: 20px; }
 nav a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  transition: 0.2s;
 }
 
-nav a:hover {
-  color: #22c55e;
-}
+nav a:hover { color: #22c55e; }
 
 /* HAMBURGER */
 .menu-toggle {
   display: none;
   font-size: 26px;
   cursor: pointer;
-  z-index: 1001;
 }
 
 /* HERO */
@@ -73,53 +56,20 @@ nav a:hover {
   padding: 80px 20px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
-  position: relative;
-  overflow: hidden;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: #22c55e;
-  filter: blur(120px);
-  top: -50px;
-  right: -50px;
-  opacity: 0.3;
-}
+.hero img { width: 110px; }
 
-.hero img {
-  width: 110px;
-  margin-bottom: 10px;
-}
+.hero h2 { font-size: 32px; }
 
-.hero h2 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  max-width: 500px;
-  margin: auto;
-  opacity: 0.8;
-}
-
-/* BUTTON */
 .btn {
   background: #22c55e;
   padding: 14px 25px;
   color: white;
-  text-decoration: none;
   border-radius: 8px;
   display: inline-block;
   margin-top: 20px;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #16a34a;
-  transform: translateY(-2px);
+  text-decoration: none;
 }
 
 /* CONTAINER */
@@ -129,67 +79,46 @@ nav a:hover {
   margin: auto;
 }
 
-/* TITLE */
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-}
+.title { text-align: center; }
 
-/* GRID */
+/* SERVICES */
 .services {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
-/* CARD */
 .card {
   background: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-7px);
-}
-
-/* FEATURE */
-.features {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.feature {
-  background: #1e293b;
-  color: white;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 10px;
   text-align: center;
 }
 
-/* ANIMASI */
-.fade {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: 0.8s;
+/* TESTIMONI */
+.testimoni-wrapper {
+  overflow-x: auto;
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  scroll-behavior: smooth;
 }
 
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
+.testimoni-card {
+  min-width: 250px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.testimoni-card small {
+  color: gray;
 }
 
 /* MOBILE */
 @media(max-width:768px) {
-
-  .menu-toggle {
-    display: block;
-  }
+  .menu-toggle { display: block; }
 
   nav {
     position: fixed;
@@ -198,40 +127,20 @@ nav a:hover {
     width: 100%;
     background: #0f172a;
     flex-direction: column;
-    align-items: center;
     max-height: 0;
     overflow: hidden;
-    transition: 0.3s;
-    z-index: 9999;
   }
 
-  nav.active {
-    max-height: 300px;
-  }
-
-  nav a {
-    padding: 15px;
-    width: 100%;
-    text-align: center;
-  }
+  nav.active { max-height: 300px; }
 
   .services {
     grid-template-columns: repeat(2,1fr);
   }
-
-  .features {
-    grid-template-columns: 1fr;
-  }
 }
 
-/* HP */
 @media(max-width:480px) {
   .services {
     grid-template-columns: 1fr;
-  }
-
-  .hero h2 {
-    font-size: 22px;
   }
 }
 </style>
@@ -254,40 +163,41 @@ nav a:hover {
   </nav>
 </header>
 
-<section class="hero fade">
+<section class="hero">
   <img src="logo.png">
   <h2>Gaskeun, Pasti Nepi 🚀</h2>
   <p>Layanan kurir lokal tercepat area Conggeang, Buahdua, dan Paseh.</p>
   <a href="order.html" class="btn">Order Sekarang</a>
 </section>
 
-<div class="container fade">
+<div class="container">
   <h2 class="title">Layanan Kami</h2>
 
   <div class="services">
-    <div class="card">📦 Kurir Barang<br><small>Antar cepat & aman</small></div>
-    <div class="card">🛒 Jasa Titip<br><small>Beli tanpa ribet</small></div>
-    <div class="card">🏍️ Ojek Lokal<br><small>Siap antar kapan saja</small></div>
-  </div>
-
-  <div class="features">
-    <div class="feature">⚡ Cepat</div>
-    <div class="feature">💬 Langsung WA</div>
-    <div class="feature">📍 Area Lokal</div>
+    <div class="card">📦 Kurir Barang</div>
+    <div class="card">🛒 Jasa Titip</div>
+    <div class="card">🏍️ Ojek Lokal</div>
   </div>
 </div>
 
+<!-- TESTIMONI -->
+<div class="container">
+  <h2 class="title">Testimoni Customer</h2>
+
+  <div class="testimoni-wrapper" id="testimoniList"></div>
+</div>
+
 <script>
+// NAV
 function toggleMenu() {
   const nav = document.getElementById("navMenu");
   const btn = document.getElementById("menuBtn");
 
   nav.classList.toggle("active");
-
   btn.innerHTML = nav.classList.contains("active") ? "✕" : "☰";
 }
 
-// klik luar
+// AUTO CLOSE
 document.addEventListener("click", function(e) {
   const nav = document.getElementById("navMenu");
   const btn = document.getElementById("menuBtn");
@@ -298,17 +208,41 @@ document.addEventListener("click", function(e) {
   }
 });
 
-// animasi scroll
-const fades = document.querySelectorAll(".fade");
+// ================= TESTIMONI =================
+const namaRandom = ["Andi","Budi","Rina","Sari","Dika","Asep","Rizky","Fajar","Putri","Dewi"];
+const komentar = [
+  "Cepet banget anjir 🔥",
+  "Kurirnya ramah 👍",
+  "Murah + cepat, mantap",
+  "Gak nyangka secepet ini",
+  "Langganan sih ini",
+  "Mantap poll",
+  "Driver nya santuy",
+  "Rekomended banget",
+  "Top service 🔥",
+  "Fix pake lagi"
+];
 
-window.addEventListener("scroll", () => {
-  fades.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if (top < window.innerHeight - 50) {
-      el.classList.add("show");
-    }
-  });
-});
+const list = document.getElementById("testimoniList");
+
+for (let i = 0; i < 100; i++) {
+  let nama = namaRandom[Math.floor(Math.random()*namaRandom.length)];
+  let komen = komentar[Math.floor(Math.random()*komentar.length)];
+  let hari = Math.floor(Math.random()*7)+1;
+
+  list.innerHTML += `
+    <div class="testimoni-card">
+      <b>${nama}</b><br>
+      <small>${hari} hari yang lalu</small>
+      <p>${komen}</p>
+    </div>
+  `;
+}
+
+// AUTO SCROLL
+setInterval(() => {
+  list.scrollLeft += 1;
+}, 20);
 </script>
 
 </body>
