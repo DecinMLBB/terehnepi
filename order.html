@@ -5,55 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order - TEREHNEPI</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+* { box-sizing: border-box; }
+
 body {
-  font-family: 'Poppins', sans-serif;
   margin: 0;
-  background: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
 }
 
+/* HEADER */
+header {
+  padding: 15px 20px;
+}
+
+.back-home {
+  color: #22c55e;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.back-home:hover {
+  text-decoration: underline;
+}
+
+/* CONTAINER */
 .container {
   max-width: 520px;
   margin: auto;
   padding: 20px;
 }
 
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* TITLE */
 h2 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
-
+/* INPUT */
 input, select, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  outline: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
-  margin-top: 15px;
-  border-radius: 10px;
+  margin-top: 20px;
+  border-radius: 12px;
   border: none;
   background: #22c55e;
   color: white;
   font-weight: bold;
   cursor: pointer;
   font-size: 15px;
+  transition: 0.25s;
 }
 
 button:hover {
   background: #16a34a;
+  transform: translateY(-2px);
 }
 
+/* RESULT */
 .result {
   margin-top: 15px;
   font-weight: bold;
@@ -61,24 +100,27 @@ button:hover {
 }
 
 .kurir-box {
-  background: #e2e8f0;
+  background: rgba(255,255,255,0.1);
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 10px;
   text-align: center;
 }
 
 /* HIDE */
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
+
 </style>
 </head>
 
 <body>
 
+<header>
+  <a href="index.html" class="back-home">← Kembali ke Home</a>
+</header>
+
 <div class="container">
-  <h2>Order TEREHNEPI</h2>
+  <h2>ORDER TEREHNEPI</h2>
 
   <div class="card">
 
@@ -93,42 +135,36 @@ button:hover {
 
     <!-- NORMAL -->
     <div id="normalForm">
-      <label>Jemput (Desa)</label>
       <select id="jemput"></select>
-
-      <label>Tujuan (Desa)</label>
       <select id="tujuan"></select>
-
       <label><input type="checkbox" id="pp"> PP (Bolak-balik)</label>
     </div>
 
     <!-- JASTIP -->
     <div id="jastipForm" class="hidden">
-      <input type="text" id="toko" placeholder="Nama Toko / Tempat">
-      <textarea id="barang" placeholder="Barang yang dibeli (detail ya jangan nyusahin kurir)"></textarea>
+      <input type="text" id="toko" placeholder="Nama Toko">
+      <textarea id="barang" placeholder="Barang yang dibeli"></textarea>
     </div>
 
-    <textarea id="catatan" placeholder="Detail alamat / patokan jelas"></textarea>
+    <textarea id="catatan" placeholder="Detail alamat / patokan"></textarea>
 
     <div class="result" id="harga">Estimasi Harga: -</div>
     <div class="kurir-box" id="kurir">Kurir: -</div>
 
-    <button onclick="kirimWA()">ORDER SEKARANG</button>
+    <button onclick="kirimWA()">ORDER SEKARANG ⚡</button>
 
   </div>
 </div>
 
 <script>
-// ================= DATA =================
-const desa = [
-"Babakan Asem","Cacaban","Cibeureuyeuh","Cibubuan","Cipamekar",
+// DATA
+const desa = ["Babakan Asem","Cacaban","Cibeureuyeuh","Cibubuan","Cipamekar",
 "Conggeang Kulon","Conggeang Wetan","Jambu","Karanglayung",
 "Narimbang","Padaasih","Ungkal",
 "Bojongloa","Buahdua","Ciawitali","Cibitung","Cikaramas",
 "Cikurubuk","Cilangkap","Citaleus","Gendereh","Hariang",
 "Karangbungur","Mekarmukti","Nagrak","Sekarwangi",
-"Paseh Kidul","Paseh Kaler","Bongkok","Mekarpawitan"
-];
+"Paseh Kidul","Paseh Kaler","Bongkok","Mekarpawitan"];
 
 const jemputEl = document.getElementById("jemput");
 const tujuanEl = document.getElementById("tujuan");
@@ -138,7 +174,7 @@ desa.forEach(d => {
   tujuanEl.innerHTML += `<option>${d}</option>`;
 });
 
-// ================= KURIR =================
+// KURIR
 const kurir = {
   cacan: "6283178712134",
   denny: "6285156287358"
@@ -146,36 +182,27 @@ const kurir = {
 
 function getKurir() {
   const jam = new Date().getHours();
-
   if (jam >= 7 && jam < 13) return { nama: "Cacan", no: kurir.cacan };
   if (jam >= 13 && jam < 17) return { nama: "Denny", no: kurir.denny };
   if (jam >= 17 && jam < 22) return { nama: "Cacan", no: kurir.cacan };
-
   return { nama: "OFFLINE", no: null };
 }
 
-// ================= SWITCH FORM =================
+// SWITCH
 document.getElementById("jenis").addEventListener("change", function() {
-  const jenis = this.value;
-
-  document.getElementById("normalForm").classList.toggle("hidden", jenis === "Jastip");
-  document.getElementById("jastipForm").classList.toggle("hidden", jenis !== "Jastip");
-
+  const j = this.value;
+  document.getElementById("normalForm").classList.toggle("hidden", j === "Jastip");
+  document.getElementById("jastipForm").classList.toggle("hidden", j !== "Jastip");
   hitung();
 });
 
-// ================= HARGA =================
+// HARGA
 function hitung() {
   let jenis = document.getElementById("jenis").value;
-  let harga = 0;
+  let harga = (jenis === "Jastip") ? 15000 : 10000;
 
-  if (jenis === "Jastip") {
-    harga = 15000; // base jastip
-  } else {
-    harga = 10000;
-    if (document.getElementById("pp").checked) harga *= 2;
-    if (jenis === "Ojek Orang") harga += 2000;
-  }
+  if (jenis === "Ojek Orang") harga += 2000;
+  if (document.getElementById("pp").checked) harga *= 2;
 
   document.getElementById("harga").innerText =
     "Estimasi Harga: Rp " + harga.toLocaleString();
@@ -187,20 +214,19 @@ function hitung() {
   return harga;
 }
 
-// ================= AUTO UPDATE =================
+// AUTO
 document.querySelectorAll("input, select, textarea").forEach(el => {
   el.addEventListener("change", hitung);
 });
 
-// ================= WA =================
+// WA
 function kirimWA() {
   let nama = document.getElementById("nama").value.trim();
   if (!nama) return alert("Isi nama dulu");
 
   let jenis = document.getElementById("jenis").value;
   let k = getKurir();
-
-  if (!k.no) return alert("Layanan tutup (07:00 - 22:00)");
+  if (!k.no) return alert("Layanan tutup");
 
   let harga = hitung();
   let catatan = document.getElementById("catatan").value;
@@ -211,38 +237,26 @@ function kirimWA() {
     let toko = document.getElementById("toko").value;
     let barang = document.getElementById("barang").value;
 
-    pesan =
-`Halo ${k.nama}, saya ${nama}
+    pesan = `Halo ${k.nama}, saya ${nama}
 
-Order JASTIP:
-- Toko: ${toko}
-- Barang: ${barang}
-- Catatan: ${catatan}
-- Harga: Rp ${harga.toLocaleString()}`;
+JASTIP:
+Toko: ${toko}
+Barang: ${barang}
+Catatan: ${catatan}
+Harga: Rp ${harga}`;
   } else {
-    let jemput = jemputEl.value;
-    let tujuan = tujuanEl.value;
-    let pp = document.getElementById("pp").checked;
+    pesan = `Halo ${k.nama}, saya ${nama}
 
-    pesan =
-`Halo ${k.nama}, saya ${nama}
-
-Order:
-- ${jenis}
-- Jemput: ${jemput}
-- Tujuan: ${tujuan}
-- PP: ${pp ? "Ya" : "Tidak"}
-- Catatan: ${catatan}
-- Harga: Rp ${harga.toLocaleString()}`;
+${jenis}
+Jemput: ${jemputEl.value}
+Tujuan: ${tujuanEl.value}
+Catatan: ${catatan}
+Harga: Rp ${harga}`;
   }
 
-  window.open(
-    "https://wa.me/" + k.no + "?text=" + encodeURIComponent(pesan),
-    "_blank"
-  );
+  window.open("https://wa.me/" + k.no + "?text=" + encodeURIComponent(pesan));
 }
 
-// INIT
 hitung();
 </script>
 
