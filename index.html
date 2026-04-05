@@ -28,56 +28,76 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.logo { display: flex; align-items: center; }
-.logo img { height: 40px; margin-right: 10px; }
+/* BRAND */
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
 
-/* NAV */
-nav { display: flex; gap: 20px; }
-nav a {
+.logo img {
+  height: 45px;
+  margin-right: 10px;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+/* MENU CTA STYLE */
+.nav-cta {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-cta a {
+  background: #22c55e;
   color: white;
   text-decoration: none;
-  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
   transition: 0.2s;
 }
-nav a:hover { color: #22c55e; }
 
-/* HAMBURGER */
-.menu-toggle {
-  display: none;
-  font-size: 26px;
-  cursor: pointer;
+.nav-cta a:hover {
+  background: #16a34a;
 }
 
 /* HERO */
 .hero {
   text-align: center;
-  padding: 100px 20px;
+  padding: 110px 20px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
   position: relative;
   overflow: hidden;
 }
 
-/* glow effect */
 .hero::after {
   content: "";
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   background: #22c55e;
-  filter: blur(120px);
-  top: -50px;
-  right: -50px;
+  filter: blur(140px);
+  top: -80px;
+  right: -80px;
   opacity: 0.3;
 }
 
-.hero img { width: 110px; }
+/* LOGO TENGAH */
+.hero img {
+  width: 140px;
+  margin-bottom: 10px;
+}
 
 .hero h2 {
-  font-size: 36px;
+  font-size: 38px;
   margin-bottom: 10px;
   font-weight: 600;
 }
@@ -86,17 +106,16 @@ nav a:hover { color: #22c55e; }
   opacity: 0.8;
   max-width: 500px;
   margin: auto;
-  font-weight: 300;
 }
 
 /* CTA */
 .btn {
   background: #22c55e;
-  padding: 16px 28px;
+  padding: 18px 32px;
   color: white;
-  border-radius: 10px;
+  border-radius: 12px;
   display: inline-block;
-  margin-top: 25px;
+  margin-top: 30px;
   text-decoration: none;
   font-weight: bold;
   transition: 0.25s;
@@ -122,16 +141,18 @@ nav a:hover { color: #22c55e; }
   border-bottom: 1px solid #e5e7eb;
 }
 
-.title { text-align: center; margin-bottom: 25px; }
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+}
 
-/* GRID */
+/* SERVICES */
 .services {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
-/* CARD */
 .card {
   background: white;
   padding: 25px;
@@ -184,18 +205,12 @@ nav a:hover { color: #22c55e; }
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.testimoni-card:hover {
-  transform: scale(1.05);
 }
 
 .testimoni-card small {
   color: gray;
 }
 
-/* ANIMASI */
 @keyframes jalan {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -203,23 +218,13 @@ nav a:hover { color: #22c55e; }
 
 /* MOBILE */
 @media(max-width:768px) {
-  .menu-toggle { display: block; }
-
-  nav {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background: #0f172a;
-    flex-direction: column;
-    max-height: 0;
-    overflow: hidden;
-  }
-
-  nav.active { max-height: 300px; }
-
   .services {
     grid-template-columns: repeat(2,1fr);
+  }
+
+  .nav-cta a {
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }
 
@@ -243,22 +248,19 @@ nav a:hover { color: #22c55e; }
     <h2>TEREHNEPI</h2>
   </div>
 
-  <div class="menu-toggle" onclick="toggleMenu()" id="menuBtn">☰</div>
-
-  <nav id="navMenu">
-    <a href="index.html">Home</a>
-    <a href="order.html">Order</a>
-    <a href="kurir.html">Kurir</a>
-  </nav>
+  <div class="nav-cta">
+    <a href="order.html">ORDER</a>
+    <a href="kurir.html">KURIR</a>
+  </div>
 </header>
 
 <section class="hero">
   <img src="logo.png">
-  <h2>TEREH ORDERNA NEPI TUJUANA🚀</h2>
+  <h2>TEREH ORDERNA NEPI TUJUANA 🚀</h2>
   <p>Kurir lokal super cepat area Conggeang, Buahdua, dan Paseh.</p>
 
   <a href="order.html" class="btn">
-    KKLIK DISINI UNTUK ORDER ⚡ (Respon < 2 Menit)
+    ORDER SEKARANG ⚡ (Respon < 2 Menit)
   </a>
 
   <div class="trust">
@@ -270,34 +272,21 @@ nav a:hover { color: #22c55e; }
   <h2 class="title">Kenapa Pilih TEREHNEPI?</h2>
 
   <div class="services">
-    <div class="card">⚡ Respon Kurir Cepat & Sigap<br><small>Balas hitungan menit</small></div>
-    <div class="card">🏍️ Kurir Selalu Ramah & Murah Senyum<br><small>Selalu standby</small></div>
-    <div class="card">💰 Harga Jelas & Murah Selalu<br><small>Transparan & pasti</small></div>
+    <div class="card">⚡ Respon Cepat<br><small>Hitungan menit</small></div>
+    <div class="card">🏍️ Kurir Ramah<br><small>Selalu standby</small></div>
+    <div class="card">💰 Harga Jelas<br><small>Transparan</small></div>
   </div>
 </div>
 
 <div class="container">
   <h2 class="title">Testimoni Customer</h2>
 
-  <p style="text-align:center; opacity:0.7;">
-    Dipercaya oleh ratusan pelanggan lokal
-  </p>
-
-  <div class="testimoni-wrapper" id="wrapper">
+  <div class="testimoni-wrapper">
     <div class="testimoni-track" id="testimoniList"></div>
   </div>
 </div>
 
 <script>
-function toggleMenu() {
-  const nav = document.getElementById("navMenu");
-  const btn = document.getElementById("menuBtn");
-
-  nav.classList.toggle("active");
-  btn.innerHTML = nav.classList.contains("active") ? "✕" : "☰";
-}
-
-// TESTIMONI
 const namaRandom = ["A***","Bu**","Ri**","Sa***","D****","A****","Ri****","Faj**","Pu***","De**"];
 const komentar = [
   "Cepet banget 🔥",
@@ -329,16 +318,6 @@ for (let i = 0; i < 50; i++) {
 }
 
 list.innerHTML = html + html;
-
-// pause
-const wrapper = document.getElementById("wrapper");
-
-wrapper.addEventListener("mouseenter", () => {
-  list.style.animationPlayState = "paused";
-});
-wrapper.addEventListener("mouseleave", () => {
-  list.style.animationPlayState = "running";
-});
 </script>
 
 </body>
