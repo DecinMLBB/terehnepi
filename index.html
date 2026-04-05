@@ -28,6 +28,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .logo { display: flex; align-items: center; }
@@ -39,6 +40,7 @@ nav a {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  transition: 0.2s;
 }
 nav a:hover { color: #22c55e; }
 
@@ -52,22 +54,39 @@ nav a:hover { color: #22c55e; }
 /* HERO */
 .hero {
   text-align: center;
-  padding: 90px 20px;
+  padding: 100px 20px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow effect */
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: #22c55e;
+  filter: blur(120px);
+  top: -50px;
+  right: -50px;
+  opacity: 0.3;
 }
 
 .hero img { width: 110px; }
 
 .hero h2 {
-  font-size: 34px;
+  font-size: 36px;
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .hero p {
   opacity: 0.8;
   max-width: 500px;
   margin: auto;
+  font-weight: 300;
 }
 
 /* CTA */
@@ -80,12 +99,12 @@ nav a:hover { color: #22c55e; }
   margin-top: 25px;
   text-decoration: none;
   font-weight: bold;
-  transition: 0.2s;
+  transition: 0.25s;
 }
 
 .btn:hover {
   background: #16a34a;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 /* TRUST */
@@ -97,12 +116,13 @@ nav a:hover { color: #22c55e; }
 
 /* CONTAINER */
 .container {
-  padding: 50px 20px;
+  padding: 60px 20px;
   max-width: 1000px;
   margin: auto;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.title { text-align: center; margin-bottom: 20px; }
+.title { text-align: center; margin-bottom: 25px; }
 
 /* GRID */
 .services {
@@ -118,6 +138,11 @@ nav a:hover { color: #22c55e; }
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
 }
 
 /* TESTIMONI */
@@ -159,6 +184,11 @@ nav a:hover { color: #22c55e; }
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.testimoni-card:hover {
+  transform: scale(1.05);
 }
 
 .testimoni-card small {
@@ -199,7 +229,7 @@ nav a:hover { color: #22c55e; }
   }
 
   .hero h2 {
-    font-size: 24px;
+    font-size: 26px;
   }
 }
 </style>
@@ -259,7 +289,6 @@ nav a:hover { color: #22c55e; }
 </div>
 
 <script>
-// NAV
 function toggleMenu() {
   const nav = document.getElementById("navMenu");
   const btn = document.getElementById("menuBtn");
@@ -301,7 +330,7 @@ for (let i = 0; i < 50; i++) {
 
 list.innerHTML = html + html;
 
-// PAUSE
+// pause
 const wrapper = document.getElementById("wrapper");
 
 wrapper.addEventListener("mouseenter", () => {
