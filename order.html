@@ -3,23 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order - Terehnepi</title>
+<title>Order - TEREHNEPI</title>
 
 <style>
 body {
-  font-family: Arial;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   background: #f5f5f5;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 520px;
   margin: auto;
   padding: 20px;
 }
 
 h2 {
   text-align: center;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
 input, select, textarea {
@@ -32,14 +39,15 @@ input, select, textarea {
 
 button {
   width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
+  padding: 14px;
+  margin-top: 15px;
+  border-radius: 10px;
   border: none;
   background: #22c55e;
   color: white;
   font-weight: bold;
   cursor: pointer;
+  font-size: 15px;
 }
 
 button:hover {
@@ -47,7 +55,7 @@ button:hover {
 }
 
 .result {
-  margin-top: 10px;
+  margin-top: 15px;
   font-weight: bold;
   text-align: center;
 }
@@ -59,86 +67,85 @@ button:hover {
   margin-top: 10px;
   text-align: center;
 }
+
+/* HIDE */
+.hidden {
+  display: none;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h2>Order Terehnepi</h2>
+  <h2>Order TEREHNEPI</h2>
 
-  <input type="text" id="nama" placeholder="Nama Anda">
+  <div class="card">
 
-  <label>Jenis Layanan</label>
-  <select id="jenis">
-    <option>Ojek Orang</option>
-    <option>Kirim Barang</option>
-  </select>
+    <input type="text" id="nama" placeholder="Nama Anda">
 
-  <label>Jemput (Desa)</label>
-  <select id="jemput"></select>
+    <label>Jenis Layanan</label>
+    <select id="jenis">
+      <option>Ojek Orang</option>
+      <option>Kirim Barang</option>
+      <option>Jastip</option>
+    </select>
 
-  <label>Tujuan (Desa)</label>
-  <select id="tujuan"></select>
+    <!-- NORMAL -->
+    <div id="normalForm">
+      <label>Jemput (Desa)</label>
+      <select id="jemput"></select>
 
-  <label><input type="checkbox" id="pp"> PP (Bolak-balik)</label>
+      <label>Tujuan (Desa)</label>
+      <select id="tujuan"></select>
 
-  <textarea id="catatan" placeholder="Detail alamat / patokan jelas"></textarea>
+      <label><input type="checkbox" id="pp"> PP (Bolak-balik)</label>
+    </div>
 
-  <div class="result" id="harga">Estimasi Harga: -</div>
-  <div class="kurir-box" id="kurir">Kurir: -</div>
+    <!-- JASTIP -->
+    <div id="jastipForm" class="hidden">
+      <input type="text" id="toko" placeholder="Nama Toko / Tempat">
+      <textarea id="barang" placeholder="Barang yang dibeli (detail ya jangan nyusahin kurir)"></textarea>
+    </div>
 
-  <button onclick="kirimWA()">Order Sekarang</button>
+    <textarea id="catatan" placeholder="Detail alamat / patokan jelas"></textarea>
+
+    <div class="result" id="harga">Estimasi Harga: -</div>
+    <div class="kurir-box" id="kurir">Kurir: -</div>
+
+    <button onclick="kirimWA()">ORDER SEKARANG</button>
+
+  </div>
 </div>
 
 <script>
 // ================= DATA =================
-const conggeang = [
+const desa = [
 "Babakan Asem","Cacaban","Cibeureuyeuh","Cibubuan","Cipamekar",
 "Conggeang Kulon","Conggeang Wetan","Jambu","Karanglayung",
-"Narimbang","Padaasih","Ungkal"
-];
-
-const buahdua = [
+"Narimbang","Padaasih","Ungkal",
 "Bojongloa","Buahdua","Ciawitali","Cibitung","Cikaramas",
 "Cikurubuk","Cilangkap","Citaleus","Gendereh","Hariang",
-"Karangbungur","Mekarmukti","Nagrak","Sekarwangi"
-];
-
-const paseh = [
+"Karangbungur","Mekarmukti","Nagrak","Sekarwangi",
 "Paseh Kidul","Paseh Kaler","Bongkok","Mekarpawitan"
 ];
-
-const semuaDesa = [...conggeang, ...buahdua, ...paseh];
 
 const jemputEl = document.getElementById("jemput");
 const tujuanEl = document.getElementById("tujuan");
 
-semuaDesa.forEach(desa => {
-  jemputEl.innerHTML += `<option>${desa}</option>`;
-  tujuanEl.innerHTML += `<option>${desa}</option>`;
+desa.forEach(d => {
+  jemputEl.innerHTML += `<option>${d}</option>`;
+  tujuanEl.innerHTML += `<option>${d}</option>`;
 });
-
-function getArea(desa) {
-  if (conggeang.includes(desa)) return "Conggeang";
-  if (buahdua.includes(desa)) return "Buahdua";
-  if (paseh.includes(desa)) return "Paseh";
-  return "Lain";
-}
 
 // ================= KURIR =================
 const kurir = {
   cacan: "6283178712134",
-  denny: "6285156287358",
-  cacan: "6283178712134"
+  denny: "6285156287358"
 };
 
 function getKurir() {
-  const sekarang = new Date().toLocaleString("en-US", {
-    timeZone: "Asia/Jakarta"
-  });
-
-  const jam = new Date(sekarang).getHours();
+  const jam = new Date().getHours();
 
   if (jam >= 7 && jam < 13) return { nama: "Cacan", no: kurir.cacan };
   if (jam >= 13 && jam < 17) return { nama: "Denny", no: kurir.denny };
@@ -147,46 +154,28 @@ function getKurir() {
   return { nama: "OFFLINE", no: null };
 }
 
+// ================= SWITCH FORM =================
+document.getElementById("jenis").addEventListener("change", function() {
+  const jenis = this.value;
+
+  document.getElementById("normalForm").classList.toggle("hidden", jenis === "Jastip");
+  document.getElementById("jastipForm").classList.toggle("hidden", jenis !== "Jastip");
+
+  hitung();
+});
+
 // ================= HARGA =================
 function hitung() {
-  let jemput = jemputEl.value;
-  let tujuan = tujuanEl.value;
   let jenis = document.getElementById("jenis").value;
-  let pp = document.getElementById("pp").checked;
-
-  let areaJ = getArea(jemput);
-  let areaT = getArea(tujuan);
-
   let harga = 0;
 
-  const desaJauh = ["Babakan Asem", "Padaasih", "Ungkal"];
-
-  // CONGGEANG DALAM
-  if (areaJ === "Conggeang" && areaT === "Conggeang") {
+  if (jenis === "Jastip") {
+    harga = 15000; // base jastip
+  } else {
     harga = 10000;
-
-    if (
-      desaJauh.includes(jemput) ||
-      desaJauh.includes(tujuan)
-    ) {
-      harga += 3000;
-    }
+    if (document.getElementById("pp").checked) harga *= 2;
+    if (jenis === "Ojek Orang") harga += 2000;
   }
-
-  // ANTAR KECAMATAN
-  else if (areaJ !== areaT) {
-    harga = 20000;
-  }
-
-  else {
-    harga = 15000;
-  }
-
-  // jenis layanan
-  if (jenis === "Ojek Orang") harga += 2000;
-
-  // PP = 2x perjalanan (INI YANG BENER)
-  if (pp) harga = harga * 2;
 
   document.getElementById("harga").innerText =
     "Estimasi Harga: Rp " + harga.toLocaleString();
@@ -199,43 +188,53 @@ function hitung() {
 }
 
 // ================= AUTO UPDATE =================
-document.querySelectorAll("select, input, textarea").forEach(el => {
+document.querySelectorAll("input, select, textarea").forEach(el => {
   el.addEventListener("change", hitung);
 });
 
 // ================= WA =================
 function kirimWA() {
   let nama = document.getElementById("nama").value.trim();
+  if (!nama) return alert("Isi nama dulu");
 
-  if (nama === "") {
-    alert("Nama jangan kosong");
-    return;
-  }
-
+  let jenis = document.getElementById("jenis").value;
   let k = getKurir();
 
-  if (!k.no) {
-    alert("Layanan buka 07:00 - 22:00 WIB");
-    return;
-  }
+  if (!k.no) return alert("Layanan tutup (07:00 - 22:00)");
 
   let harga = hitung();
-  let jemput = jemputEl.value;
-  let tujuan = tujuanEl.value;
-  let jenis = document.getElementById("jenis").value;
   let catatan = document.getElementById("catatan").value;
-  let pp = document.getElementById("pp").checked;
 
-  let pesan =
+  let pesan = "";
+
+  if (jenis === "Jastip") {
+    let toko = document.getElementById("toko").value;
+    let barang = document.getElementById("barang").value;
+
+    pesan =
 `Halo ${k.nama}, saya ${nama}
 
-Order Terehnepi:
+Order JASTIP:
+- Toko: ${toko}
+- Barang: ${barang}
+- Catatan: ${catatan}
+- Harga: Rp ${harga.toLocaleString()}`;
+  } else {
+    let jemput = jemputEl.value;
+    let tujuan = tujuanEl.value;
+    let pp = document.getElementById("pp").checked;
+
+    pesan =
+`Halo ${k.nama}, saya ${nama}
+
+Order:
 - ${jenis}
 - Jemput: ${jemput}
 - Tujuan: ${tujuan}
 - PP: ${pp ? "Ya" : "Tidak"}
 - Catatan: ${catatan}
 - Harga: Rp ${harga.toLocaleString()}`;
+  }
 
   window.open(
     "https://wa.me/" + k.no + "?text=" + encodeURIComponent(pesan),
@@ -243,7 +242,7 @@ Order Terehnepi:
   );
 }
 
-// hitung awal
+// INIT
 hitung();
 </script>
 
