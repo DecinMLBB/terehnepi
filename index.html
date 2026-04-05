@@ -40,7 +40,6 @@ nav a {
   text-decoration: none;
   font-weight: 500;
 }
-
 nav a:hover { color: #22c55e; }
 
 /* HAMBURGER */
@@ -94,18 +93,39 @@ nav a:hover { color: #22c55e; }
   text-align: center;
 }
 
-/* TESTIMONI */
+/* ===== TESTIMONI FIX ===== */
 .testimoni-wrapper {
-  overflow-x: auto;
-  display: flex;
-  gap: 15px;
+  overflow: hidden;
+  position: relative;
   margin-top: 20px;
-  scroll-behavior: smooth;
 }
 
-/* HILANGIN SCROLLBAR */
-.testimoni-wrapper::-webkit-scrollbar {
-  display: none;
+/* fade kiri kanan */
+.testimoni-wrapper::before,
+.testimoni-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 2;
+}
+
+.testimoni-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #f5f5f5, transparent);
+}
+
+.testimoni-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #f5f5f5, transparent);
+}
+
+.testimoni-track {
+  display: flex;
+  gap: 15px;
+  width: max-content;
+  animation: jalan 35s linear infinite;
 }
 
 .testimoni-card {
@@ -118,6 +138,12 @@ nav a:hover { color: #22c55e; }
 
 .testimoni-card small {
   color: gray;
+}
+
+/* ANIMASI */
+@keyframes jalan {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* MOBILE */
@@ -187,7 +213,10 @@ nav a:hover { color: #22c55e; }
 <!-- TESTIMONI -->
 <div class="container">
   <h2 class="title">Testimoni Customer</h2>
-  <div class="testimoni-wrapper" id="testimoniList"></div>
+
+  <div class="testimoni-wrapper" id="wrapper">
+    <div class="testimoni-track" id="testimoniList"></div>
+  </div>
 </div>
 
 <script>
@@ -211,26 +240,24 @@ document.addEventListener("click", function(e) {
   }
 });
 
-// ================= TESTIMONI =================
+// ===== TESTIMONI =====
 const namaRandom = ["Andi","Budi","Rina","Sari","Dika","Asep","Rizky","Fajar","Putri","Dewi"];
 const komentar = [
-  "Cepet banget anjir 🔥",
+  "Cepet banget 🔥",
   "Kurirnya ramah 👍",
-  "Murah + cepat, mantap",
-  "Gak nyangka secepet ini",
+  "Murah + cepat",
   "Langganan sih ini",
   "Mantap poll",
-  "Driver nya santuy",
+  "Driver santuy",
   "Rekomended banget",
-  "Top service 🔥",
-  "Fix pake lagi"
+  "Top service 🔥"
 ];
 
 const list = document.getElementById("testimoniList");
 
 let html = "";
 
-// generate 50 lalu duplikat biar loop
+// generate 50
 for (let i = 0; i < 50; i++) {
   let nama = namaRandom[Math.floor(Math.random()*namaRandom.length)];
   let komen = komentar[Math.floor(Math.random()*komentar.length)];
@@ -245,22 +272,27 @@ for (let i = 0; i < 50; i++) {
   `;
 }
 
+// duplikat biar looping mulus
 list.innerHTML = html + html;
 
-// AUTO SCROLL SMOOTH
-let speed = 0.5;
+// PAUSE SAAT DISENTUH
+const wrapper = document.getElementById("wrapper");
 
-function autoScroll() {
-  list.scrollLeft += speed;
+wrapper.addEventListener("mouseenter", () => {
+  list.style.animationPlayState = "paused";
+});
 
-  if (list.scrollLeft >= list.scrollWidth / 2) {
-    list.scrollLeft = 0;
-  }
+wrapper.addEventListener("mouseleave", () => {
+  list.style.animationPlayState = "running";
+});
 
-  requestAnimationFrame(autoScroll);
-}
+wrapper.addEventListener("touchstart", () => {
+  list.style.animationPlayState = "paused";
+});
 
-autoScroll();
+wrapper.addEventListener("touchend", () => {
+  list.style.animationPlayState = "running";
+});
 </script>
 
 </body>
