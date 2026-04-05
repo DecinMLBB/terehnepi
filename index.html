@@ -93,7 +93,7 @@ nav a:hover { color: #22c55e; }
   text-align: center;
 }
 
-/* ===== TESTIMONI FIX ===== */
+/* ===== TESTIMONI ===== */
 .testimoni-wrapper {
   overflow: hidden;
   position: relative;
@@ -125,7 +125,7 @@ nav a:hover { color: #22c55e; }
   display: flex;
   gap: 15px;
   width: max-content;
-  animation: jalan 35s linear infinite;
+  animation: jalan var(--speed, 80s) linear infinite;
 }
 
 .testimoni-card {
@@ -241,7 +241,7 @@ document.addEventListener("click", function(e) {
 });
 
 // ===== TESTIMONI =====
-const namaRandom = ["Andi","Budi","Rina","Sari","Dika","Asep","Rizky","Fajar","Putri","Dewi"];
+const namaRandom = ["A***","Bu**","Ri**","Sa***","D****","A****","Ri****","Faj**","Pu***","De**"];
 const komentar = [
   "Cepet banget 🔥",
   "Kurirnya ramah 👍",
@@ -255,9 +255,12 @@ const komentar = [
 
 const list = document.getElementById("testimoniList");
 
+// atur speed di sini (semakin besar = semakin pelan)
+list.style.setProperty('--speed', '90s');
+
 let html = "";
 
-// generate 50
+// generate
 for (let i = 0; i < 50; i++) {
   let nama = namaRandom[Math.floor(Math.random()*namaRandom.length)];
   let komen = komentar[Math.floor(Math.random()*komentar.length)];
@@ -272,10 +275,10 @@ for (let i = 0; i < 50; i++) {
   `;
 }
 
-// duplikat biar looping mulus
+// loop mulus
 list.innerHTML = html + html;
 
-// PAUSE SAAT DISENTUH
+// pause
 const wrapper = document.getElementById("wrapper");
 
 wrapper.addEventListener("mouseenter", () => {
