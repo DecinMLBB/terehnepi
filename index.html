@@ -42,13 +42,7 @@ header {
   margin-right: 10px;
 }
 
-.logo h2 {
-  margin: 0;
-  font-size: 20px;
-  letter-spacing: 1px;
-}
-
-/* MENU CTA STYLE */
+/* NAV CTA */
 .nav-cta {
   display: flex;
   gap: 10px;
@@ -90,7 +84,6 @@ header {
   opacity: 0.3;
 }
 
-/* LOGO TENGAH */
 .hero img {
   width: 140px;
   margin-bottom: 10px;
@@ -99,7 +92,6 @@ header {
 .hero h2 {
   font-size: 38px;
   margin-bottom: 10px;
-  font-weight: 600;
 }
 
 .hero p {
@@ -124,6 +116,26 @@ header {
 .btn:hover {
   background: #16a34a;
   transform: translateY(-3px);
+}
+
+.btn-secondary {
+  background: white;
+  color: #0f172a;
+  margin-top: 15px;
+  padding: 14px 24px;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+/* CTA ROW */
+.cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 /* TRUST */
@@ -221,11 +233,6 @@ header {
   .services {
     grid-template-columns: repeat(2,1fr);
   }
-
-  .nav-cta a {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
 }
 
 @media(max-width:480px) {
@@ -259,9 +266,17 @@ header {
   <h2>TEREH ORDERNA NEPI TUJUANA 🚀</h2>
   <p>Kurir lokal super cepat area Conggeang, Buahdua, dan Paseh.</p>
 
+  <!-- CTA UTAMA -->
   <a href="order.html" class="btn">
-    ORDER SEKARANG ⚡ (Respon < 2 Menit)
+    ORDER SEKARANG ⚡
   </a>
+
+  <!-- CTA TAMBAHAN -->
+  <div class="cta-row">
+    <a href="https://LINK-TOPUP-LU.COM" class="btn btn-secondary">
+      Topup Game 🔥
+    </a>
+  </div>
 
   <div class="trust">
     ⭐ 4.9 / 5 • 500+ pelanggan puas
