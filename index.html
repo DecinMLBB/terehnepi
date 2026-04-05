@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terehnepi</title>
+<title>Terehnepi - Kurir Lokal Cepat</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -52,55 +52,80 @@ nav a:hover { color: #22c55e; }
 /* HERO */
 .hero {
   text-align: center;
-  padding: 80px 20px;
+  padding: 90px 20px;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
 }
 
 .hero img { width: 110px; }
-.hero h2 { font-size: 32px; }
 
+.hero h2 {
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  opacity: 0.8;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* CTA */
 .btn {
   background: #22c55e;
-  padding: 14px 25px;
+  padding: 16px 28px;
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 25px;
   text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+/* TRUST */
+.trust {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.8;
 }
 
 /* CONTAINER */
 .container {
-  padding: 40px 20px;
+  padding: 50px 20px;
   max-width: 1000px;
   margin: auto;
 }
 
-.title { text-align: center; }
+.title { text-align: center; margin-bottom: 20px; }
 
-/* SERVICES */
+/* GRID */
 .services {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
+/* CARD */
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 12px;
   text-align: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
-/* ===== TESTIMONI ===== */
+/* TESTIMONI */
 .testimoni-wrapper {
   overflow: hidden;
   position: relative;
-  margin-top: 20px;
 }
 
-/* fade kiri kanan */
 .testimoni-wrapper::before,
 .testimoni-wrapper::after {
   content: "";
@@ -125,7 +150,7 @@ nav a:hover { color: #22c55e; }
   display: flex;
   gap: 15px;
   width: max-content;
-  animation: jalan var(--speed, 120s) linear infinite;
+  animation: jalan 120s linear infinite;
 }
 
 .testimoni-card {
@@ -172,6 +197,10 @@ nav a:hover { color: #22c55e; }
   .services {
     grid-template-columns: 1fr;
   }
+
+  .hero h2 {
+    font-size: 24px;
+  }
 }
 </style>
 </head>
@@ -196,23 +225,33 @@ nav a:hover { color: #22c55e; }
 <section class="hero">
   <img src="logo.png">
   <h2>Gaskeun, Pasti Nepi 🚀</h2>
-  <p>Layanan kurir lokal tercepat area Conggeang, Buahdua, dan Paseh.</p>
-  <a href="order.html" class="btn">Order Sekarang</a>
+  <p>Kurir lokal super cepat area Conggeang, Buahdua, dan Paseh.</p>
+
+  <a href="order.html" class="btn">
+    Order Sekarang ⚡ (Respon < 2 Menit)
+  </a>
+
+  <div class="trust">
+    ⭐ 4.9 / 5 • 500+ pelanggan puas
+  </div>
 </section>
 
 <div class="container">
-  <h2 class="title">Layanan Kami</h2>
+  <h2 class="title">Kenapa Pilih Terehnepi?</h2>
 
   <div class="services">
-    <div class="card">📦 Kurir Barang</div>
-    <div class="card">🛒 Jasa Titip</div>
-    <div class="card">🏍️ Ojek Lokal</div>
+    <div class="card">⚡ Respon Cepat<br><small>Balas hitungan menit</small></div>
+    <div class="card">🏍️ Kurir Siaga<br><small>Selalu standby</small></div>
+    <div class="card">💰 Harga Jelas<br><small>Transparan & pasti</small></div>
   </div>
 </div>
 
-<!-- TESTIMONI -->
 <div class="container">
   <h2 class="title">Testimoni Customer</h2>
+
+  <p style="text-align:center; opacity:0.7;">
+    Dipercaya oleh ratusan pelanggan lokal
+  </p>
 
   <div class="testimoni-wrapper" id="wrapper">
     <div class="testimoni-track" id="testimoniList"></div>
@@ -229,18 +268,7 @@ function toggleMenu() {
   btn.innerHTML = nav.classList.contains("active") ? "✕" : "☰";
 }
 
-// AUTO CLOSE
-document.addEventListener("click", function(e) {
-  const nav = document.getElementById("navMenu");
-  const btn = document.getElementById("menuBtn");
-
-  if (!nav.contains(e.target) && !btn.contains(e.target)) {
-    nav.classList.remove("active");
-    btn.innerHTML = "☰";
-  }
-});
-
-// ===== TESTIMONI =====
+// TESTIMONI
 const namaRandom = ["A***","Bu**","Ri**","Sa***","D****","A****","Ri****","Faj**","Pu***","De**"];
 const komentar = [
   "Cepet banget 🔥",
@@ -255,12 +283,8 @@ const komentar = [
 
 const list = document.getElementById("testimoniList");
 
-// atur speed di sini (semakin besar = semakin pelan)
-list.style.setProperty('--speed', '90s');
-
 let html = "";
 
-// generate
 for (let i = 0; i < 50; i++) {
   let nama = namaRandom[Math.floor(Math.random()*namaRandom.length)];
   let komen = komentar[Math.floor(Math.random()*komentar.length)];
@@ -275,25 +299,15 @@ for (let i = 0; i < 50; i++) {
   `;
 }
 
-// loop mulus
 list.innerHTML = html + html;
 
-// pause
+// PAUSE
 const wrapper = document.getElementById("wrapper");
 
 wrapper.addEventListener("mouseenter", () => {
   list.style.animationPlayState = "paused";
 });
-
 wrapper.addEventListener("mouseleave", () => {
-  list.style.animationPlayState = "running";
-});
-
-wrapper.addEventListener("touchstart", () => {
-  list.style.animationPlayState = "paused";
-});
-
-wrapper.addEventListener("touchend", () => {
   list.style.animationPlayState = "running";
 });
 </script>
