@@ -59,7 +59,6 @@ nav a:hover { color: #22c55e; }
 }
 
 .hero img { width: 110px; }
-
 .hero h2 { font-size: 32px; }
 
 .btn {
@@ -102,6 +101,11 @@ nav a:hover { color: #22c55e; }
   gap: 15px;
   margin-top: 20px;
   scroll-behavior: smooth;
+}
+
+/* HILANGIN SCROLLBAR */
+.testimoni-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .testimoni-card {
@@ -183,7 +187,6 @@ nav a:hover { color: #22c55e; }
 <!-- TESTIMONI -->
 <div class="container">
   <h2 class="title">Testimoni Customer</h2>
-
   <div class="testimoni-wrapper" id="testimoniList"></div>
 </div>
 
@@ -225,12 +228,15 @@ const komentar = [
 
 const list = document.getElementById("testimoniList");
 
-for (let i = 0; i < 100; i++) {
+let html = "";
+
+// generate 50 lalu duplikat biar loop
+for (let i = 0; i < 50; i++) {
   let nama = namaRandom[Math.floor(Math.random()*namaRandom.length)];
   let komen = komentar[Math.floor(Math.random()*komentar.length)];
   let hari = Math.floor(Math.random()*7)+1;
 
-  list.innerHTML += `
+  html += `
     <div class="testimoni-card">
       <b>${nama}</b><br>
       <small>${hari} hari yang lalu</small>
@@ -239,10 +245,22 @@ for (let i = 0; i < 100; i++) {
   `;
 }
 
-// AUTO SCROLL
-setInterval(() => {
-  list.scrollLeft += 1;
-}, 20);
+list.innerHTML = html + html;
+
+// AUTO SCROLL SMOOTH
+let speed = 0.5;
+
+function autoScroll() {
+  list.scrollLeft += speed;
+
+  if (list.scrollLeft >= list.scrollWidth / 2) {
+    list.scrollLeft = 0;
+  }
+
+  requestAnimationFrame(autoScroll);
+}
+
+autoScroll();
 </script>
 
 </body>
